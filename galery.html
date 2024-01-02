@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Sticky Note</title>
+  <style>
+    .note {
+      position: absolute;
+      width: 200px;
+      height: 200px;
+      background-color: pink;
+      border: 2px solid black;
+      padding: 10px;
+    }
+    .note2 {
+      position: absolute;
+      width: 200px;
+      height: 200px;
+      background-color: pink;
+      border: 2px solid black;
+      padding: 10px;
+      top: 250px;
+    }
+    .add-page-btn {
+      position: absolute;
+      top: 500px;
+      left: 50%;
+      transform: translateX(-50%);
+      background-color: #4CAF50;
+      color: white;
+      padding: 14px 20px;
+      margin: 8px 0;
+      border: none;
+      cursor: pointer;
+      border-radius: 10px;
+    }
+  </style>
+</head>
+<body>
+  <div class="note" id="note">
+    <textarea rows="10" cols="20"></textarea>
+  </div>
+  <div class="note2" id="note2">
+    <textarea rows="10" cols="20"></textarea>
+  </div>
+  <button class="add-page-btn" onclick="addNewPage()">Add New Page</button>
+  <script>
+    var note = document.getElementById("note");
+    note.addEventListener("mousedown", function(event) {
+      var shiftX = event.clientX - note.getBoundingClientRect().left;
+      var shiftY = event.clientY - note.getBoundingClientRect().top;
+
+      note.style.position = 'absolute';
+      note.style.zIndex = 1000;
+
+      document.body.append(note);
+
+      moveAt(event.pageX, event.pageY);
+
+      function moveAt(pageX, pageY) {
+        note.style.left = pageX - shiftX + 'px';
+        note.style.top = pageY - shiftY + 'px';
+      }
+
+      function onMouseMove(event) {
+        moveAt(event.pageX, event.pageY);
+      }
+
+      note.onmouseup = function() {
+        document.removeEventListener('mousemove', onMouseMove);
+        note.onmouseup = null;
+      };
+    });
+
+    var note2 = document.getElementById("note2");
+    note2.addEventListener("mousedown", function(event) {
+      var shiftX = event.clientX - note2.getBoundingClientRect().left;
+      var shiftY = event.clientY - note2.getBoundingClientRect().top;
+
+      note2.style.position = 'absolute';
+      note2.style.zIndex = 1000;
+
+      document.body.append(note2);
+
+      moveAt(event.pageX, event.pageY);
+
+      function moveAt(pageX, pageY) {
+        note2.style.left = pageX - shiftX + 'px';
+        note2.style.top = pageY - shiftY + 'px';
+      }
+
+      function onMouseMove(event) {
+        moveAt(event.pageX, event.pageY);
+      }
+
+      note2.onmouseup = function() {
+        document.removeEventListener('mousemove', onMouseMove);
+        note2.onmouseup = null;
+      };
+    });
+
+    function addNewPage() {
+      var newNote = document.createElement("div");
+      newNote.classList.add("note");
+      newNote.style.top = "500px";
+      newNote.style.left = "500px";
+      newNote.innerHTML = '<textarea rows="10" cols="20"></textarea>';
+      document.body.appendChild(newNote);
+    }
+  </script>
+</body>
+</html>
